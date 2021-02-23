@@ -1,0 +1,49 @@
+
+spring:
+  application:
+    name: service-a
+  profiles:
+    active: dev
+
+server:
+  port: 80
+  servlet:
+    context-path: /service-a
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+---
+spring:
+  profiles: dev
+  cloud:
+      kubernetes:
+        config:
+          enabled: false
+version: 1
+
+host:
+  service-b: http://service-b
+  service-c: http://service-c
+  external: http://external
+
+---
+spring:
+  profiles: test
+  cloud:
+      kubernetes:
+        config:
+#          name: service-a
+#          namespace: test-istio
+          enabled: true
+          sources:
+            - name: service-a
+              namespace: test-istio

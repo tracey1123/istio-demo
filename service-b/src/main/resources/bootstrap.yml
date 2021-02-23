@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: service-b
+  profiles:
+    active: dev
+
+server:
+  port: 80
+  servlet:
+    context-path: /service-b
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+---
+spring:
+  profiles: test
+  cloud:
+    kubernetes:
+      config:
+#        name: service-b
+#        namespace: test-istio
+        enabled: true
+        sources:
+          - name: service-b-config
+            namespace: test-istio
+          - name: redis-config
+            namespace: test-istio
+
+---
+spring:
+  profiles: dev
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+
+
+
+

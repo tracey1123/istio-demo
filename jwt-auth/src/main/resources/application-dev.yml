@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: auth
+  cloud:
+      kubernetes:
+        config:
+          enabled: false
+
+server:
+  port: 80
+  servlet:
+    context-path: /auth
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+rsa:
+  privateKey: MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDKGffp0Gz66JNwA3hMTaa8bfobv1hbGgNybHbzDNharWhC6406OtJIKJlP/N44xtbR/2wyQvAEiDSvMaxDKdLXLj0cHQbq+xQ1yFPhmeia3iQeu6h95VgY/PsrrzhBu5QCW+Ow0rB/pAsmi9SBh4vGkfCG07BuCULbu2YSveNC8TMEXbG1SCDakWhhkZ4k+h86R1MGA1IygqNZzXUyjiwhfjOBx5iQ+7cmP27TjLXMuElYkbgSK0vHQCp7mM7UBmyjWtX+nU7dDsJRKsZj70vLBRpAbQnOQ+0Zpcp4dIUqYf7lHn69dLCIlTWR2k/qnHBiU0wk2QDH3iWLOFA7wnnvAgMBAAECggEBALsKT4vADqwkBRe8zl/n2bE4Iyn865vctmX2hhuovq8lH4IXmCvU9no7wK/regqX04akWpElrBa1q/ScBy5djbkCHSJgpt9gIbMoxKDdHQ3/GvSqfmSNlfwCXb5vOqRzIqcQPeiPBTQMMRmqfbCnLrBGrpFJZ1ZfEdZkWDJuNN7kz+dQ+RP4wvPf1r1jSnj8z5LngU83u9RkZUMC0MvatKhMOmTATY3SuhHuUMLMrDpzzI18W9IBTHF/fVAY3Vgiz3vYp/eAC/9bCzBaMq2+bCBJ3rcnf4LTg1H1omy6jYAHxfbJJcmG/bqX/J1IuuFm+tmWPy6P0++3jtVpT88XzGkCgYEA7ugH2fEyxoG0N93oKZL6UYhKvPeLDVfNvyD82jKc/DULTlS5zI1Hvd966QjQX/Wfp3mCBgE8wbIcp13+3Y2iYtLDobQk+s4HILxxxwB5VScc8G5WxPihLGG/W5uBPIcuA5/uuS2RQMfx4QQ98JEbu65IvZWXbEjB9iaf+7A0R6MCgYEA2I/LP86k9IYFwsQR9hP6y5txgx10BdAdp90flahgcYoCWclT5uiO7cfWA78bEcsGWjCALUA4abby/LqzTqVehgC5KBeir32fCPHqLWydeWh93lMHiBCvBZgvjSdbkY+TU+7L1LHbmPlRxJuz0E74/c3QB2q0YKwN+Lr66bZm2UUCgYEAzHjkt2Cbf5BlSWdwm5yDB6MprGAFsA7VNl8qainleGqB2bHkL7E/lL+f97Emfuq/kVwKr88BTBqAMbLePotJT2FqNIz1FX+eVCNVEehS8FGAkDsvonfVoiGq4OHQE5jzBgEtFWptpk86ssapqKrZXKGG+lP8/J2s/FsElCq0JBcCgYAe5yYRzOMtIZLg4CnP+7nmJCBmnWVZDwGsWpmPOZ/Jk/AR7/DRGo6Kz+FyV2r9dwNJC3K/AlMKgtjZx6qepmp+pMvHNNg6QqrXE+5e3Qj7sjWD7EU+3WKcYcMnWV5vvxU+/OyJRXgYtDs+2xkluJ8/WIc/B7MFuIel3si/YQ/8IQKBgQDnIQMGNF2Ry4jXUgyVUuX+gTsBw/t5XmyW9qcpbT1w3YEUGqfosYLcFfSYF3vLa/t0u2Kv4fFZWtEuS+GgR0fvNSVrEOiXGkaTJiYndPehHq7+/xeugfPtskBzDfG1LWKrelrlWy8HkRW9FvqanSnewGwR+AXI9MYR9TYEhtrA0w==
+  publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyhn36dBs+uiTcAN4TE2mvG36G79YWxoDcmx28wzYWq1oQuuNOjrSSCiZT/zeOMbW0f9sMkLwBIg0rzGsQynS1y49HB0G6vsUNchT4Znomt4kHruofeVYGPz7K684QbuUAlvjsNKwf6QLJovUgYeLxpHwhtOwbglC27tmEr3jQvEzBF2xtUgg2pFoYZGeJPofOkdTBgNSMoKjWc11Mo4sIX4zgceYkPu3Jj9u04y1zLhJWJG4EitLx0Aqe5jO1AZso1rV/p1O3Q7CUSrGY+9LywUaQG0JzkPtGaXKeHSFKmH+5R5+vXSwiJU1kdpP6pxwYlNMJNkAx94lizhQO8J57wIDAQAB

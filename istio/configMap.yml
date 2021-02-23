@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: service-a-configmap
+  namespace: test-istio
+  labels:
+    app: service-a
+data:
+  application.yaml: |-
+    version: 1

@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-b
+  namespace: test-istio
+  labels:
+    app: service-b
+    service: service-b
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: service-b
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b-v1
+  namespace: test-istio
+  labels:
+    app: service-b
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-b
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-b
+        version: v1
+    spec:
+      serviceAccountName: config-reader
+      containers:
+      - name: service-b
+        image: docker.io/tracey1123/service-b:1.29.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: test
+        resources:
+          limits:
+            cpu: "4"
+            memory: "16Gi"
+          requests:
+            cpu: "2"
+            memory: "8Gi"
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 90
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}
+---

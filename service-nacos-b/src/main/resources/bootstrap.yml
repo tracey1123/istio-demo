@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: service-nacos-b
+  profiles:
+    active: local
+---
+spring:
+  profiles: local
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.21.7.15:32519
+      config:
+        server-addr: 172.21.7.15:32519
+        file-extension: yaml
+---
+spring:
+  profiles: ${PROFILE}
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${DISCOVERY_SVC}
+      config:
+        server-addr: ${DISCOVERY_SVC}
+        file-extension: yaml
+
+

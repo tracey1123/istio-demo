@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: service-a
+
+server:
+  port: 80
+  servlet:
+    context-path: /service-a
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+version: 1
+
+host:
+  service-b: http://service-b
+  service-c: http://service-c
+  external: http://external

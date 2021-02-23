@@ -1,0 +1,27 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: redis-config
+  namespace: test-istio
+  labels:
+    app: service-b
+data:
+  application-test.yaml: |-
+    spring:
+      redis:
+        password: health@cmcc
+        cluster:
+          nodes:
+          - health-redis-0.healthtest.svc.cluster.local:6379
+          - health-redis-1.healthtest.svc.cluster.local:6379
+          - health-redis-2.healthtest.svc.cluster.local:6379
+          - health-redis-3.healthtest.svc.cluster.local:6379
+          - health-redis-4.healthtest.svc.cluster.local:6379
+          - health-redis-5.healthtest.svc.cluster.local:6379
+        lettuce:
+          pool:
+            max-active: 50
+            max-wait: 5000
+            max-idle: 50
+            min-idle: 5
+        timeout: 5000

@@ -1,0 +1,29 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: "istio-demo-jwt-auth"
+  namespace: test-istio
+spec:
+  selector:
+    matchLabels:
+      app: service-a
+  jwtRules:
+  - issuer: "istio-demo-auth"
+    jwks: |
+	{
+      "keys":[
+	   {
+         "kty": "RSA",
+         "e": "AQAB",
+         "use": "sig",
+         "kid": "wiaHH0e1yxovgA1SM37qQ1tzI5Z3s1qXiem4IiEuAIc",
+         "alg": "RS256",
+         "n": "yhn36dBs-uiTcAN4TE2mvG36G79YWxoDcmx28wzYWq1oQuuNOjrSSCiZT_zeOMbW0f9sMkLwBIg0rzGsQynS1y49HB0G6vsUNchT4Znomt4kHruofeVYGPz7K684QbuUAlvjsNKwf6QLJovUgYeLxpHwhtOwbglC27tmEr3jQvEzBF2xtUgg2pFoYZGeJPofOkdTBgNSMoKjWc11Mo4sIX4zgceYkPu3Jj9u04y1zLhJWJG4EitLx0Aqe5jO1AZso1rV_p1O3Q7CUSrGY-9LywUaQG0JzkPtGaXKeHSFKmH-5R5-vXSwiJU1kdpP6pxwYlNMJNkAx94lizhQO8J57w"
+       }
+	   ]
+    }
+    fromHeaders:
+      - name: Authorization
+        prefix: "Bearer"
+    forwardOriginalToken: true
+    outputPayloadToHeader: payload

@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: external
+  cloud:
+      kubernetes:
+        config:
+          enabled: false
+
+server:
+  port: 80
+  servlet:
+    context-path: /
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+

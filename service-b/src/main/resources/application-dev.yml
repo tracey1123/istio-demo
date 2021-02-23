@@ -1,0 +1,22 @@
+spring:
+  redis:
+      password: REDIS2020
+      cluster:
+        nodes:
+        - 172.21.33.60:6381
+        - 172.21.33.118:6379
+        - 172.21.33.171:6383
+        - 172.21.33.60:6382
+        - 172.21.33.118:6380
+        - 172.21.33.171:6384
+      lettuce:
+        pool:
+          max-active: 50
+          max-wait: 5000
+          max-idle: 50
+          min-idle: 5
+      timeout: 5000
+
+version:
+  1
+
