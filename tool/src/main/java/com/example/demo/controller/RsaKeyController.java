@@ -8,7 +8,6 @@ package com.example.demo.controller;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -45,17 +45,17 @@ public class RsaKeyController {
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
             //获取公钥秘钥
-            String publicKeyValue = Base64.encodeBase64String(keyPair.getPublic().getEncoded());
+            String publicKeyValue = Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
             //生成的privateKey可直接使用PKCS8EncodedKeySpec生成RSAPrivateKey类型参数
-            String privateKeyValue = Base64.encodeBase64String(keyPair.getPrivate().getEncoded());
+            String privateKeyValue = Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
 
-            String publicJwt = this.getPublicJwt(publicKeyValue);
+            String jwk = this.getJwK(publicKeyValue);
 
 
             //存入公钥秘钥，以便以后获取
             keyPairMap.put("public",publicKeyValue);
             keyPairMap.put("private",privateKeyValue);
-            keyPairMap.put("publicJwt",publicJwt);
+            keyPairMap.put("jwk",jwk);
         } catch (NoSuchAlgorithmException e) {
             log.error("当前JDK版本没找到RSA加密算法！");
             e.printStackTrace();
@@ -70,8 +70,8 @@ public class RsaKeyController {
      * @param publicKey
      * @return
      */
-    private String getPublicJwt(String publicKey){
-        String publicJwt = null;
+    private String getJwK(String publicKey){
+        String jwk = null;
         try {
             byte[] keyBytes = (new BASE64Decoder()).decodeBuffer(publicKey);
             X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
@@ -81,16 +81,15 @@ public class RsaKeyController {
             Map<String, Object> values = new HashMap<>();
             values.put("kty", rsa.getAlgorithm()); // getAlgorithm() returns kty not algorithm
             values.put("kid", UUID.randomUUID().toString().replaceAll("-", ""));
-            values.put("n", Base64.encodeBase64String(rsa.getModulus().toByteArray()));
-            values.put("e", Base64.encodeBase64String(rsa.getPublicExponent().toByteArray()));
+            values.put("n", Base64.getUrlEncoder().encodeToString(rsa.getModulus().toByteArray()));
+            values.put("e", Base64.getUrlEncoder().encodeToString(rsa.getPublicExponent().toByteArray()));
             values.put("alg", "RS256");
-            values.put("use", "sig");
-            //jwk格式公钥
-            publicJwt = new Gson().toJson(values);
+             //jwk格式公钥
+            jwk = new Gson().toJson(values);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return publicJwt;
+        return jwk;
     }
 }
 
